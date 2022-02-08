@@ -18,5 +18,8 @@ module.exports = (api) =>
     : {
         // Only transforms new dev syntax like optional chaining
         // or nullish coalescing
-        presets: ['@babel/env']
+        presets: ['@babel/preset-env'],
+        plugins: [
+          ["@babel/plugin-transform-runtime"]
+        ]
       };

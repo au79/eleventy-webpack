@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
 const NavigationPlugin = require('@11ty/eleventy-navigation');
-const ErrorOverlayPlugin = require('eleventy-plugin-error-overlay');
 
 const filters = require('./utils/filters');
 const markdown = require('./utils/markdown');
@@ -16,12 +15,10 @@ module.exports = (config) => {
   config.setLibrary('md', markdown);
 
   // Allow eleventy to understand yaml files
-  config.addDataExtension('yml', (contents) => yaml.safeLoad(contents));
+  config.addDataExtension('yml', (contents) => yaml.load(contents));
 
   // Plugins
   config.addPlugin(NavigationPlugin);
-  // Shows error name, message, and fancy stacktrace
-  config.addPlugin(ErrorOverlayPlugin);
 
   // Filters
   Object.keys(filters).forEach((key) => {
@@ -40,8 +37,6 @@ module.exports = (config) => {
   config.addNunjucksAsyncShortcode('webpack', shortcodes.webpack);
 
   // Pass-through files
-  config.addPassthroughCopy('src/_headers');
-  config.addPassthroughCopy('src/favicon.ico');
   // Everything inside static is copied verbatim to `_site`
   config.addPassthroughCopy('src/assets/static');
 
